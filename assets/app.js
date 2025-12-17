@@ -53,12 +53,53 @@ const CANONICAL_QUESTIONS = [
   "What does your typical workweek look like? How about your weekend?"
 ];
 
-function renderQA(answers = []) {
+function isDraftMode() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("mode") === "draft" || params.get("draft") === "1";
+}
+
+function countWords(text = "") {
+  const cleaned = (text || "").trim();
+  if (!cleaned) return 0;
+  return cleaned.split(/\s+/).filter(Boolean).length;
+}
+
+function countChars(text = "") {
+  return (text || "").length;
+}
+
+
+function renderQA(responses = []) {
   const wrap = document.getElementById("qa");
   wrap.innerHTML = "";
 
+  const draftMode = isDraftMode();
+
   CANONICAL_QUESTIONS.forEach((question, i) => {
-    const answer = answers[i] || "";
+    const r = responses[i] || {};
+
+    const visibility = r.visibility || "public"; // public | private
+    const status = r.status || "draft";          // public | draft
+    const publicText = r.public || "";
+    const draftText = r.draft || "";
+
+    // Decide what to display
+    let displayed = "";
+
+    if (!draftMode) {
+      // Normal visitors:
+      if (visibility === "private") {
+        displayed = ""; // hide entirely
+      } else if (status === "public" && publicText) {
+        displayed = publicText;
+      } else {
+        displayed = ""; // not ready
+      }
+    } else {
+      // Draft mode (you):
+      // Prefer draft if present, otherwise public
+      displayed = draftText || publicText || "";
+    }
 
     const card = document.createElement("div");
     card.className = "qa-essay";
@@ -69,13 +110,52 @@ function renderQA(answers = []) {
 
     const aP = document.createElement("p");
     aP.className = "qa-a";
-    aP.textContent = answer || "(Answer pending)";
+    aP.textContent = displayed || (draftMode ? "(No answer yet)" : "(Answer pending)");
+
+    // Meta pills (counts + flags)
+    const meta = document.createElement("div");
+    meta.className = "qa-meta";
+
+    const words = countWords(displayed);
+    const chars = countChars(displayed);
+
+    const pillWords = document.createElement("span");
+    pillWords.className = "qa-pill";
+    pillWords.textContent = `Words: ${words}`;
+
+    const pillChars = document.createElement("span");
+    pillChars.className = "qa-pill";
+    pillChars.textContent = `Chars: ${chars}`;
+
+    const pillTarget = document.createElement("span");
+    pillTarget.className = "qa-pill";
+    pillTarget.textContent = "Target: ~500 words";
+
+    meta.appendChild(pillWords);
+    meta.appendChild(pillChars);
+    meta.appendChild(pillTarget);
+
+    if (draftMode) {
+      const pillVis = document.createElement("span");
+      pillVis.className = "qa-pill";
+      pillVis.textContent = `Visibility: ${visibility}`;
+
+      const pillStatus = document.createElement("span");
+      pillStatus.className = "qa-pill";
+      pillStatus.textContent = `Status: ${status}`;
+
+      meta.appendChild(pillVis);
+      meta.appendChild(pillStatus);
+    }
 
     card.appendChild(qP);
     card.appendChild(aP);
+    card.appendChild(meta);
+
     wrap.appendChild(card);
   });
 }
+
 
 (async function init() {
   try {
@@ -94,7 +174,7 @@ function renderQA(answers = []) {
 
     renderBadges(data.badges || []);
     renderQuickDetails(data.quickDetails || {});
-    renderQA(data.answers || []);
+    renderQA(data.responses || []);
 
     // Email capture persona identifier
     const personaSlug = data.slug || window.location.pathname.split("/").filter(Boolean).slice(-1)[0];
