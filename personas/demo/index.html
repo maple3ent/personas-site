@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Persona — Profile</title>
+  <link rel="stylesheet" href="../../assets/styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="page-header">
+      <p class="muted">Profile ID: <span id="slug"></span></p>
+      <h1 id="name">Loading...</h1>
+      <p class="muted" id="headline"></p>
+    </header>
+
+    <div id="error"></div>
+
+    <section class="card grid">
+      <!-- Picture section -->
+      <div>
+        <div class="photo">
+          <img id="photo" src="./photo.jpg" alt="Persona photo" />
+        </div>
+
+        <div class="badges" id="badges"></div>
+      </div>
+
+      <!-- Name + quick details section -->
+      <div>
+        <h2>Quick Details</h2>
+
+        <div class="kv" id="quickDetails"></div>
+
+        <div class="badges" style="margin-top:14px;">
+          <span class="badge">Location: <span id="location"></span></span>
+          <span class="badge">Age: <span id="age"></span></span>
+          <span class="badge">Pronouns: <span id="pronouns"></span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q&A section -->
+    <section class="card">
+      <h2>Q&amp;A</h2>
+      <div class="qa" id="qa"></div>
+    </section>
+
+    <!-- Email capture -->
+    <section class="card">
+      <h2>Get updates about this profile</h2>
+      <p class="muted">If someone signs up here, you’ll receive their email *tagged to this persona*.</p>
+
+      <!-- Formspree recommended (free tier). Add your endpoint in persona.json -->
+      <form id="emailForm" method="POST" action="">
+        <input type="hidden" name="persona" id="personaHidden" value="" />
+        <div class="form-row">
+          <input type="email" name="email" placeholder="Enter your email" required />
+          <button type="submit">Notify me</button>
+        </div>
+        <p class="footer-note">You can change colors/fonts in <code>/assets/styles.css</code> without touching the structure.</p>
+      </form>
+    </section>
+
+    <p class="footer-note muted" style="margin-top:16px;">
+      Back to <a href="../../">all personas</a>
+    </p>
+  </main>
+
+  <script src="../../assets/app.js"></script>
+</body>
+</html>
