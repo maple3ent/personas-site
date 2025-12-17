@@ -297,3 +297,20 @@ code{ color: #cdd6ff; }
   object-fit: cover;
   display: block;
 }
+
+/* Counts under each answer */
+.qa-meta{
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.qa-pill{
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255,255,255,.03);
+}
