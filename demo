@@ -1,0 +1,10 @@
+personas-site/
+  index.html
+  assets/
+    styles.css
+    app.js
+  personas/
+    demo/
+      index.html
+      persona.json
+      photo.jpg
