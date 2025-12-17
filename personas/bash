@@ -1,3 +1,0 @@
-git add _config.yml index.md home.html
-git commit -m "Convert homepage to Jekyll Minimal theme"
-git push
