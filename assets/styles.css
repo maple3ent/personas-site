@@ -71,6 +71,46 @@ a:hover{ text-decoration: underline; }
   object-fit: cover;
   display: block;
 }
+:root{
+  --photo-aspect: 4 / 5;
+  --photo-max-h: 560px;
+}
+
+/* Standardized photo container */
+.photo{
+  aspect-ratio: var(--photo-aspect);
+  max-height: var(--photo-max-h);
+  width: 100%;
+}
+
+/* Horizontal gallery */
+.gallery{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.gallery::-webkit-scrollbar{
+  height: 8px;
+}
+
+.gallery-slide{
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: center;
+}
+
+.gallery-slide img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 
 .badges{
   display: flex;
