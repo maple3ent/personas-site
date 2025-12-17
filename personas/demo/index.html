@@ -79,16 +79,86 @@
 
     <!-- 4) EMAIL CAPTURE -->
     <section class="card">
-      <h2>Get updates about this profile</h2>
-      <p class="muted">If someone signs up here, you’ll receive their email tagged to this persona.</p>
-
-      <form id="emailForm" method="POST" action="">
-        <input type="hidden" name="persona" id="personaHidden" value="" />
-        <div class="form-row">
-          <input type="email" name="email" placeholder="Enter your email" required />
-          <button type="submit">Notify me</button>
+      <h2>Submit interest</h2>
+      <p class="muted">
+        This submission is reviewed by our team. If it’s a match, we’ll coordinate next steps.
+      </p>
+    
+      <form id="interestForm" method="POST" action="">
+        <!-- Persona tagging -->
+        <input type="hidden" name="personaSlug" id="personaHidden" value="" />
+        <input type="hidden" name="personaName" id="personaNameHidden" value="" />
+    
+        <h3>Contact information</h3>
+        <div class="kv">
+          <div class="k">Your Name</div>
+          <div class="v"><input type="text" name="contactName" required /></div>
+    
+          <div class="k">Email</div>
+          <div class="v"><input type="email" name="email" required /></div>
+    
+          <div class="k">Phone</div>
+          <div class="v"><input type="tel" name="phone" /></div>
+    
+          <div class="k">Location</div>
+          <div class="v"><input type="text" name="yourLocation" placeholder="City, State" /></div>
+    
+          <div class="k">Age</div>
+          <div class="v"><input type="text" name="yourAge" /></div>
         </div>
-        <p class="footer-note">You can change colors/fonts in <code>/assets/styles.css</code> without touching the structure.</p>
+    
+        <h3 style="margin-top:16px;">Quick details</h3>
+        <div class="kv">
+          <div class="k">Sibling Rank</div>
+          <div class="v"><input type="text" name="yourSiblingRank" /></div>
+    
+          <div class="k">Enneagram</div>
+          <div class="v"><input type="text" name="yourEnneagram" /></div>
+    
+          <div class="k">Myers-Briggs</div>
+          <div class="v"><input type="text" name="yourMyersBriggs" /></div>
+        </div>
+    
+        <h3 style="margin-top:16px;">Questions</h3>
+    
+        <div class="qa">
+          <div class="qa-essay">
+            <p class="qa-q">What are your non-negotiables?</p>
+            <textarea class="qa-a" name="q1" rows="8" required></textarea>
+          </div>
+    
+          <div class="qa-essay">
+            <p class="qa-q">What’s an area of life you are actively focused on changing?</p>
+            <textarea class="qa-a" name="q2" rows="8" required></textarea>
+          </div>
+    
+          <div class="qa-essay">
+            <p class="qa-q">What’s your idea of a great night with friends?</p>
+            <textarea class="qa-a" name="q3" rows="8" required></textarea>
+          </div>
+    
+          <div class="qa-essay">
+            <p class="qa-q">What’s something that surprised you recently?</p>
+            <textarea class="qa-a" name="q4" rows="8" required></textarea>
+          </div>
+    
+          <div class="qa-essay">
+            <p class="qa-q">What’s your guilty pleasure?</p>
+            <textarea class="qa-a" name="q5" rows="8" required></textarea>
+          </div>
+    
+          <div class="qa-essay">
+            <p class="qa-q">What does your typical workweek look like? How about your weekend?</p>
+            <textarea class="qa-a" name="q6" rows="8" required></textarea>
+          </div>
+        </div>
+    
+        <div style="margin-top:14px;">
+          <button type="submit">Submit for review</button>
+          <p class="footer-note">
+            By submitting, you consent to us reviewing your responses for matching purposes.
+          </p>
+        </div>
       </form>
     </section>
 
