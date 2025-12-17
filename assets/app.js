@@ -44,6 +44,15 @@ function renderQuickDetails(details = {}) {
   });
 }
 
+const CANONICAL_QUESTIONS = [
+  "What are your non-negotiables?",
+  "What’s an area of life you are actively focused on changing?",
+  "What’s your idea of a great night with friends?",
+  "What’s something that surprised you recently?",
+  "What’s your guilty pleasure?",
+  "What does your typical workweek look like? How about your weekend?"
+];
+
 function renderQA(items = []) {
   const wrap = el("qa");
   wrap.innerHTML = "";
