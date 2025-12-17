@@ -224,13 +224,13 @@ function renderQA(responses = []) {
     const personaSlug =
       data.slug || window.location.pathname.split("/").filter(Boolean).slice(-1)[0];
 
-    const hiddenPersona = el("personaHidden");
-    if (hiddenPersona) hiddenPersona.value = personaSlug;
+    const personaNameHidden = el("personaNameHidden");
+    if (personaNameHidden) personaNameHidden.value = data.name || personaSlug;
 
     setText("slug", personaSlug);
 
-    const form = el("emailForm");
-    if (form && data.formspreeEndpoint) {
+    const form = el("interestForm");
+    if (form) form.action = FORMSPREE_ENDPOINT; {
       form.action = data.formspreeEndpoint;
     }
 
