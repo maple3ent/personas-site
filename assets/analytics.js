@@ -9,7 +9,7 @@ window.__enableAnalytics = function () {
   // 2) Copy the beacon snippet token and paste below
   const CF_TOKEN = "PASTE_YOUR_CLOUDFLARE_TOKEN_HERE";
 
-  if (CF_TOKEN && CF_TOKEN !== "PASTE_YOUR_CLOUDFLARE_TOKEN_HERE") {
+  if (CF_TOKEN && CF_TOKEN !== "<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "e633be3c9e8947469ceb597618234637"}'></script><!-- End Cloudflare Web Analytics -->") {
     const s = document.createElement("script");
     s.defer = true;
     s.src = "https://static.cloudflareinsights.com/beacon.min.js";
