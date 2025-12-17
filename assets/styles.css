@@ -136,6 +136,26 @@ h3{ margin: 0 0 10px; font-size: 16px; color: var(--muted); font-weight: 600; }
   .form-row{ grid-template-columns: 1fr; }
 }
 
+textarea.qa-a{
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,.22);
+  color: var(--text);
+  padding: 12px;
+  resize: vertical;
+  min-height: 220px;
+  line-height: 1.55;
+}
+input[type="text"], input[type="tel"]{
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,.22);
+  color: var(--text);
+}
+
 input[type="email"]{
   width: 100%;
   padding: 12px 12px;
