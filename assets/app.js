@@ -16,15 +16,14 @@ function setHTML(id, html) {
   if (node) node.innerHTML = html ?? "";
 }
 
+/* Dynamic photo gallery */
 function renderPhotos(data) {
-  const gallery = document.getElementById("gallery");
+  const gallery = el("gallery");
   if (!gallery) return;
 
   gallery.innerHTML = "";
 
   const photos = Array.isArray(data.photos) ? data.photos.filter(Boolean) : [];
-
-  // Fallback: if no photos array, show a single default
   const sources = photos.length ? photos : ["./photo-1.jpg"];
 
   sources.forEach((src, idx) => {
@@ -40,8 +39,11 @@ function renderPhotos(data) {
   });
 }
 
+/* Optional sections (guarded) */
 function renderBadges(badges = []) {
   const wrap = el("badges");
+  if (!wrap) return;
+
   wrap.innerHTML = "";
   badges.forEach(b => {
     const s = document.createElement("span");
@@ -53,6 +55,8 @@ function renderBadges(badges = []) {
 
 function renderQuickDetails(details = {}) {
   const wrap = el("quickDetails");
+  if (!wrap) return;
+
   wrap.innerHTML = "";
   Object.entries(details).forEach(([k, v]) => {
     const kDiv = document.createElement("div");
@@ -68,6 +72,7 @@ function renderQuickDetails(details = {}) {
   });
 }
 
+/* Canonical questions */
 const CANONICAL_QUESTIONS = [
   "What are your non-negotiables?",
   "What’s an area of life you are actively focused on changing?",
@@ -92,36 +97,28 @@ function countChars(text = "") {
   return (text || "").length;
 }
 
-
 function renderQA(responses = []) {
-  const wrap = document.getElementById("qa");
-  wrap.innerHTML = "";
+  const wrap = el("qa");
+  if (!wrap) return;
 
+  wrap.innerHTML = "";
   const draftMode = isDraftMode();
 
   CANONICAL_QUESTIONS.forEach((question, i) => {
     const r = responses[i] || {};
 
-    const visibility = r.visibility || "public"; // public | private
-    const status = r.status || "draft";          // public | draft
+    const visibility = r.visibility || "public";
+    const status = r.status || "draft";
     const publicText = r.public || "";
     const draftText = r.draft || "";
 
-    // Decide what to display
     let displayed = "";
 
     if (!draftMode) {
-      // Normal visitors:
-      if (visibility === "private") {
-        displayed = ""; // hide entirely
-      } else if (status === "public" && publicText) {
-        displayed = publicText;
-      } else {
-        displayed = ""; // not ready
-      }
+      if (visibility === "private") displayed = "";
+      else if (status === "public" && publicText) displayed = publicText;
+      else displayed = "";
     } else {
-      // Draft mode (you):
-      // Prefer draft if present, otherwise public
       displayed = draftText || publicText || "";
     }
 
@@ -136,7 +133,6 @@ function renderQA(responses = []) {
     aP.className = "qa-a";
     aP.textContent = displayed || (draftMode ? "(No answer yet)" : "(Answer pending)");
 
-    // Meta pills (counts + flags)
     const meta = document.createElement("div");
     meta.className = "qa-meta";
 
@@ -175,11 +171,9 @@ function renderQA(responses = []) {
     card.appendChild(qP);
     card.appendChild(aP);
     card.appendChild(meta);
-
     wrap.appendChild(card);
   });
 }
-
 
 (async function init() {
   try {
@@ -190,27 +184,33 @@ function renderQA(responses = []) {
     setText("headline", data.headline);
     setText("location", data.location);
     setText("age", data.age);
+
     setText("siblingRank", data.siblingRank);
     setText("enneagram", data.enneagram);
     setText("myersBriggs", data.myersBriggs);
+
+    if (Array.isArray(data.responses) && data.responses.length !== 6) {
+      console.warn("Expected exactly 6 responses. Found:", data.responses.length);
+    }
 
     renderPhotos(data);
     renderBadges(data.badges || []);
     renderQuickDetails(data.quickDetails || {});
     renderQA(data.responses || []);
 
-    // Email capture persona identifier
-    const personaSlug = data.slug || window.location.pathname.split("/").filter(Boolean).slice(-1)[0];
-    const hiddenPersona = el("personaHidden");
-    hiddenPersona.value = personaSlug;
+    const personaSlug =
+      data.slug || window.location.pathname.split("/").filter(Boolean).slice(-1)[0];
 
-    // Optional: show slug
+    const hiddenPersona = el("personaHidden");
+    if (hiddenPersona) hiddenPersona.value = personaSlug;
+
     setText("slug", personaSlug);
 
-    // Optional: configure form endpoint
-    if (data.formspreeEndpoint) {
-      el("emailForm").action = data.formspreeEndpoint;
+    const form = el("emailForm");
+    if (form && data.formspreeEndpoint) {
+      form.action = data.formspreeEndpoint;
     }
+
   } catch (e) {
     console.error(e);
     setHTML("error", `<div class="card">Could not load persona profile. Check <code>persona.json</code>.</div>`);
