@@ -18,6 +18,7 @@ function setHTML(id, html) {
   if (node) node.innerHTML = html ?? "";
 }
 
+/* Mirror header values into overlay spans (if present) */
 function mirrorOverlays() {
   const name = el("name")?.textContent || "Name";
   const age = el("age")?.textContent || "Age";
@@ -124,8 +125,8 @@ function renderQA(responses = []) {
   CANONICAL_QUESTIONS.forEach((question, i) => {
     const r = responses[i] || {};
 
-    const visibility = r.visibility || "public";
-    const status = r.status || "draft";
+    const visibility = r.visibility || "public"; // public | private
+    const status = r.status || "draft";          // public | draft
     const publicText = r.public || "";
     const draftText = r.draft || "";
 
@@ -196,47 +197,52 @@ function renderQA(responses = []) {
   try {
     const data = await loadPersona();
 
-    const form = el("interestForm");
-    if (form) form.action = FORMSPREE_ENDPOINT;
-
+    // Page metadata
     document.title = `${data.name ?? "Persona"} — Profile`;
     setText("name", data.name);
     setText("headline", data.headline);
     setText("location", data.location);
     setText("age", data.age);
 
+    // Lower-right overlay traits
     setText("siblingRank", data.siblingRank);
     setText("enneagram", data.enneagram);
     setText("myersBriggs", data.myersBriggs);
 
+    // Ensure overlays reflect loaded data
     mirrorOverlays();
     setTimeout(mirrorOverlays, 50);
 
+    // Enforce response count (warn only)
     if (Array.isArray(data.responses) && data.responses.length !== 6) {
       console.warn("Expected exactly 6 responses. Found:", data.responses.length);
     }
 
+    // Render page sections
     renderPhotos(data);
     renderBadges(data.badges || []);
     renderQuickDetails(data.quickDetails || {});
     renderQA(data.responses || []);
 
+    // Persona tagging for Formspree submissions
     const personaSlug =
       data.slug || window.location.pathname.split("/").filter(Boolean).slice(-1)[0];
 
-    // Tag persona in the submission
     const hiddenPersona = el("personaHidden");
     if (hiddenPersona) hiddenPersona.value = personaSlug;
-    
+
     const personaNameHidden = el("personaNameHidden");
     if (personaNameHidden) personaNameHidden.value = data.name || personaSlug;
-    
-    // Set the Formspree endpoint
+
+    // Configure Formspree endpoint (single global form)
     const interestForm = el("interestForm");
     if (interestForm) interestForm.action = FORMSPREE_ENDPOINT;
 
   } catch (e) {
     console.error(e);
-    setHTML("error", `<div class="card">Could not load persona profile. Check <code>persona.json</code>.</div>`);
+    setHTML(
+      "error",
+      `<div class="card">Could not load persona profile. Check <code>persona.json</code>.</div>`
+    );
   }
 })();
