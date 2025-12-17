@@ -7,13 +7,11 @@
   <link rel="stylesheet" href="../../assets/styles.css" />
 
   <meta name="privacy" content="public">
-  <!-- for PIN-gated pages use: -->
   <!-- <meta name="privacy" content="pin"> -->
   <!-- <meta name="pin" content="1234"> -->
 
+  <script src="../../assets/privacy.js"></script>
 </head>
-  
-<script src="../../assets/privacy.js"></script>
 
 <body>
   <main class="container">
@@ -25,63 +23,71 @@
 
     <div id="error"></div>
 
-    <section class="card grid">
-      <!-- Picture section -->
-      <div class="photo">
-        <div class="gallery" aria-label="Profile photos">
-          <div class="gallery-slide">
-            <img src="./photo-1.jpg" alt="Profile photo 1" />
-          </div>
-          <div class="gallery-slide">
-            <img src="./photo-2.jpg" alt="Profile photo 2" />
-          </div>
-          <div class="gallery-slide">
-            <img src="./photo-3.jpg" alt="Profile photo 3" />
+    <!-- 1) PHOTO SECTION (standard size + scrolling gallery + locked overlays) -->
+    <section class="card">
+      <div class="profile-card">
+        <div class="photo">
+          <div class="gallery" aria-label="Profile photos">
+            <div class="gallery-slide">
+              <img src="./photo-1.jpg" alt="Profile photo 1" />
+            </div>
+            <div class="gallery-slide">
+              <img src="./photo-2.jpg" alt="Profile photo 2" />
+            </div>
+            <div class="gallery-slide">
+              <img src="./photo-3.jpg" alt="Profile photo 3" />
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Name + quick details section -->
-      <div>
-        <h2>Quick Details</h2>
+        <div class="profile-info">
+          <!-- Upper-left: Name / Age / Location -->
+          <div class="info-block">
+            <div class="info-title">Name</div>
+            <div class="info-value"><span id="nameOverlay">Name</span></div>
 
-        <div class="kv" id="quickDetails"></div>
+            <div class="info-title" style="margin-top:6px;">Age</div>
+            <div class="info-value"><span id="ageOverlay">Age</span></div>
 
-        <div class="badges" style="margin-top:14px;">
-          <span class="badge">Location: <span id="location"></span></span>
-          <span class="badge">Age: <span id="age"></span></span>
+            <div class="info-title" style="margin-top:6px;">Location</div>
+            <div class="info-value"><span id="locationOverlay">Location</span></div>
+          </div>
+
+          <!-- Upper-right reserved -->
+          <div></div>
+
+          <!-- Lower-left reserved -->
+          <div></div>
+
+          <!-- Lower-right: Sibling Rank / Enneagram / Myers Briggs -->
+          <div class="info-block bottom right">
+            <div class="info-title">Sibling Rank</div>
+            <div class="info-value">Sibling Rank</div>
+
+            <div class="info-title" style="margin-top:6px;">Enneagram</div>
+            <div class="info-value">Enneagram</div>
+
+            <div class="info-title" style="margin-top:6px;">Myers Briggs</div>
+            <div class="info-value">Myers Briggs</div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Q&A section -->
+    <!-- 2) QUESTIONS SECTION (full width; renders from persona.json responses) -->
     <section class="card">
       <h2>Questions</h2>
       <div class="qa" id="qa"></div>
     </section>
 
-
-    <!-- Email capture -->
+    <!-- 3) DETAILS SECTION (full width; below Questions) -->
     <section class="card">
-      <h2>Get updates about this profile</h2>
-      <p class="muted">If someone signs up here, you’ll receive their email *tagged to this persona*.</p>
-
-      <!-- Formspree recommended (free tier). Add your endpoint in persona.json -->
-      <form id="emailForm" method="POST" action="">
-        <input type="hidden" name="persona" id="personaHidden" value="" />
-        <div class="form-row">
-          <input type="email" name="email" placeholder="Enter your email" required />
-          <button type="submit">Notify me</button>
-        </div>
-        <p class="footer-note">You can change colors/fonts in <code>/assets/styles.css</code> without touching the structure.</p>
-      </form>
+      <h2>Details</h2>
+      <div class="kv" id="quickDetails"></div>
+      <p class="footer-note">This section will be populated per persona, but the structure stays the same.</p>
     </section>
 
-    <p class="footer-note muted" style="margin-top:16px;">
-      Back to <a href="../../">all personas</a>
-    </p>
-  </main>
-
-  <script src="../../assets/app.js"></script>
-</body>
-</html>
+    <!-- 4) EMAIL CAPTURE -->
+    <section class="card">
+      <h2>Get updates about this profile</h2>
+      <p class="muted">If someone signs up here, you’ll receive th
