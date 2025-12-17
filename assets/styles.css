@@ -200,3 +200,24 @@ code{ color: #cdd6ff; }
 .info-value{
   font-weight: 600;
 }
+
+/* ===== 500-word style answer blocks ===== */
+.qa-essay{
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(255,255,255,.03);
+}
+
+.qa-essay .qa-q{
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.qa-essay .qa-a{
+  margin: 0;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  min-height: 220px;   /* “essay” feel */
+}
