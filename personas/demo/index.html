@@ -6,6 +6,7 @@
   <title>Persona — Profile</title>
   <link rel="stylesheet" href="../../assets/styles.css" />
 
+  <!-- Keeping this in place (you can fully use it tomorrow) -->
   <meta name="privacy" content="public">
   <!-- <meta name="privacy" content="pin"> -->
   <!-- <meta name="pin" content="1234"> -->
@@ -41,7 +42,7 @@
         </div>
 
         <div class="profile-info">
-          <!-- Upper-left: Name / Age / Location -->
+          <!-- Upper-left: Name / Age / Location (values mirrored from app.js) -->
           <div class="info-block">
             <div class="info-title">Name</div>
             <div class="info-value"><span id="nameOverlay">Name</span></div>
@@ -59,7 +60,7 @@
           <!-- Lower-left reserved -->
           <div></div>
 
-          <!-- Lower-right: Sibling Rank / Enneagram / Myers Briggs -->
+          <!-- Lower-right: Sibling Rank / Enneagram / Myers Briggs (placeholders for now) -->
           <div class="info-block bottom right">
             <div class="info-title">Sibling Rank</div>
             <div class="info-value">Sibling Rank</div>
@@ -74,7 +75,7 @@
       </div>
     </section>
 
-    <!-- 2) QUESTIONS SECTION (full width; renders from persona.json responses) -->
+    <!-- 2) QUESTIONS SECTION (full width; from persona.json "responses") -->
     <section class="card">
       <h2>Questions</h2>
       <div class="qa" id="qa"></div>
@@ -90,4 +91,23 @@
     <!-- 4) EMAIL CAPTURE -->
     <section class="card">
       <h2>Get updates about this profile</h2>
-      <p class="muted">If someone signs up here, you’ll receive th
+      <p class="muted">If someone signs up here, you’ll receive their email tagged to this persona.</p>
+
+      <form id="emailForm" method="POST" action="">
+        <input type="hidden" name="persona" id="personaHidden" value="" />
+        <div class="form-row">
+          <input type="email" name="email" placeholder="Enter your email" required />
+          <button type="submit">Notify me</button>
+        </div>
+        <p class="footer-note">You can change colors/fonts in <code>/assets/styles.css</code> without touching the structure.</p>
+      </form>
+    </section>
+
+    <p class="footer-note muted" style="margin-top:16px;">
+      Back to <a href="../../">all personas</a>
+    </p>
+  </main>
+
+  <script src="../../assets/app.js"></script>
+</body>
+</html>
