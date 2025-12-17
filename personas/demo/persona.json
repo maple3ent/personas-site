@@ -1,29 +1,50 @@
 {
   "slug": "demo",
-  "name": "Jordan Example",
-  "headline": "Warm, witty, and intentional — here for something real.",
-  "location": "Nashville, TN",
-  "age": "29",
-  "photoPath": "./photo.jpg",
+  "name": "Demo Persona",
+  "headline": "This profile demonstrates locked structure + shared questions.",
+  "location": "Location",
+  "age": "Age",
 
-  "badges": ["Coffee lover", "Faith + family", "Gym 4x/week", "No drama"],
-
-  "quickDetails": {
-    "Looking for": "A serious relationship",
-    "Love languages": "Quality time + Acts of service",
-    "Ideal weekend": "Brunch, hike, movie night",
-    "Dealbreakers": "Dishonesty, inconsistency"
-  },
-
- "answers": [
-    "Non-negotiables answer goes here. This block supports long-form reflection and up to ~500 words.",
-    "This answer describes an area of life currently being worked on or intentionally changing.",
-    "This answer paints a picture of what a great night with friends looks like.",
-    "This answer shares something that recently surprised the person.",
-    "This answer reveals a guilty pleasure — light, human, and fun.",
-    "This answer explains what a typical workweek looks like and how weekends are spent."
+  "responses": [
+    {
+      "public": "Public answer goes here.",
+      "draft": "Draft version goes here.",
+      "visibility": "public",
+      "status": "draft"
+    },
+    {
+      "public": "",
+      "draft": "",
+      "visibility": "public",
+      "status": "draft"
+    },
+    {
+      "public": "",
+      "draft": "",
+      "visibility": "public",
+      "status": "draft"
+    },
+    {
+      "public": "",
+      "draft": "",
+      "visibility": "private",
+      "status": "draft"
+    },
+    {
+      "public": "",
+      "draft": "",
+      "visibility": "public",
+      "status": "draft"
+    },
+    {
+      "public": "",
+      "draft": "",
+      "visibility": "public",
+      "status": "draft"
+    }
   ]
 }
+
 
   "formspreeEndpoint": ""
 }
