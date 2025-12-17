@@ -194,10 +194,7 @@ function renderQA(responses = []) {
     setText("enneagram", data.enneagram);
     setText("myersBriggs", data.myersBriggs);
 
-    const img = el("photo");
-    img.src = data.photoPath || "./photo.jpg";
-    img.alt = data.name ? `${data.name} photo` : "Persona photo";
-
+    renderPhotos(data);
     renderBadges(data.badges || []);
     renderQuickDetails(data.quickDetails || {});
     renderQA(data.responses || []);
