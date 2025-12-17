@@ -1,0 +1,26 @@
+{
+  "slug": "demo",
+  "name": "Jordan Example",
+  "headline": "Warm, witty, and intentional — here for something real.",
+  "location": "Nashville, TN",
+  "age": "29",
+  "pronouns": "she/her",
+  "photoPath": "./photo.jpg",
+
+  "badges": ["Coffee lover", "Faith + family", "Gym 4x/week", "No drama"],
+
+  "quickDetails": {
+    "Looking for": "A serious relationship",
+    "Love languages": "Quality time + Acts of service",
+    "Ideal weekend": "Brunch, hike, movie night",
+    "Dealbreakers": "Dishonesty, inconsistency"
+  },
+
+  "questions": [
+    { "q": "What are you most proud of?", "a": "Building a life I’m genuinely at peace with." },
+    { "q": "What does a great first date look like?", "a": "Something simple where we can actually talk." },
+    { "q": "What are you looking for right now?", "a": "A partner with emotional maturity and real intention." }
+  ],
+
+  "formspreeEndpoint": ""
+}
