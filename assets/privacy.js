@@ -1,58 +1,109 @@
 (function () {
-  // Configure per-page by adding a <meta name="privacy" content="public|unlisted|pin">
-  // and (optional) <meta name="pin" content="1234">
-  const privacy = document.querySelector('meta[name="privacy"]')?.content || "public";
-  const pin = document.querySelector('meta[name="pin"]')?.content || "";
+  // Hide page immediately to prevent flash of content before gate runs
+  try {
+    const style = document.createElement("style");
+    style.id = "privacy-hide";
+    style.textContent = "html{visibility:hidden}";
+    document.head.appendChild(style);
+  } catch (_) {}
 
-  if (privacy === "unlisted") {
-    // Soft privacy: discourage indexing
-    const robots = document.createElement("meta");
-    robots.name = "robots";
-    robots.content = "noindex,nofollow";
-    document.head.appendChild(robots);
+  function meta(name) {
+    return document.querySelector(`meta[name="${name}"]`)?.getAttribute("content") || "";
+  }
+
+  function showPage() {
+    const style = document.getElementById("privacy-hide");
+    if (style) style.remove();
+    document.documentElement.style.visibility = "visible";
+  }
+
+  function blockPage(message) {
+    // Replace the entire body with a simple blocked message
+    showPage();
+    document.body.innerHTML = `
+      <main class="container">
+        <section class="card">
+          <h2>Access restricted</h2>
+          <p class="muted">${message}</p>
+          <p class="footer-note">If you believe this is an error, contact the team.</p>
+        </section>
+      </main>
+    `;
+  }
+
+  function getPersonaSlugFromPath() {
+    // /personas/<slug>/... -> slug
+    const parts = window.location.pathname.split("/").filter(Boolean);
+    const idx = parts.indexOf("personas");
+    if (idx !== -1 && parts[idx + 1]) return parts[idx + 1];
+    // fallback: last segment
+    return parts[parts.length - 1] || "unknown";
+  }
+
+  function isDraftMode() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("mode") === "draft" || params.get("draft") === "1";
+  }
+
+  // Allow bypass in draft mode (you can remove this if you want stricter behavior)
+  const allowDraftBypass = true;
+
+  const privacy = (meta("privacy") || "public").toLowerCase();
+  const pin = meta("pin");
+  const slug = getPersonaSlugFromPath();
+  const sessionKey = `pin_ok_${slug}`;
+
+  // Private pages: block unless in draft mode (optional bypass)
+  if (privacy === "private") {
+    if (allowDraftBypass && isDraftMode()) {
+      showPage();
+      window.__enableAnalytics?.();
+      return;
+    }
+    blockPage("This profile is currently private.");
     return;
   }
 
-  if (privacy === "pin" && pin) {
-    const key = "persona_access_" + location.pathname;
-    if (localStorage.getItem(key) === "granted") return;
+  // Public pages: show immediately
+  if (privacy === "public") {
+    showPage();
+    window.__enableAnalytics?.();
+    return;
+  }
 
-    const overlay = document.createElement("div");
-    overlay.style.position = "fixed";
-    overlay.style.inset = "0";
-    overlay.style.background = "rgba(0,0,0,.88)";
-    overlay.style.display = "grid";
-    overlay.style.placeItems = "center";
-    overlay.style.zIndex = "9999";
-    overlay.innerHTML = `
-      <div style="max-width:420px;width:92%;border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:18px;background:rgba(255,255,255,.06);">
-        <h2 style="margin:0 0 8px;">Private profile</h2>
-        <p style="margin:0 0 12px;opacity:.8;">Enter PIN to view.</p>
-        <input id="pinInput" type="password" inputmode="numeric"
-               style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25);color:#fff;"
-               placeholder="PIN" />
-        <button id="pinBtn"
-          style="margin-top:10px;width:100%;padding:12px;border-radius:12px;border:1px solid rgba(124,92,255,.6);background:rgba(124,92,255,.22);color:#fff;cursor:pointer;">
-          Unlock
-        </button>
-        <p id="pinErr" style="margin:10px 0 0;color:#ffb4b4;display:none;">Wrong PIN.</p>
-      </div>
-    `;
-    document.body.appendChild(overlay);
-
-    function tryUnlock() {
-      const val = document.getElementById("pinInput").value;
-      if (val === pin) {
-        localStorage.setItem(key, "granted");
-        overlay.remove();
-      } else {
-        document.getElementById("pinErr").style.display = "block";
-      }
+  // PIN-gated pages
+  if (privacy === "pin") {
+    // Already unlocked this session?
+    if (sessionStorage.getItem(sessionKey) === "1") {
+      showPage();
+      window.__enableAnalytics?.();
+      return;
     }
 
-    overlay.querySelector("#pinBtn").addEventListener("click", tryUnlock);
-    overlay.querySelector("#pinInput").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") tryUnlock();
-    });
+    // If pin isn't configured, block safely
+    if (!pin) {
+      blockPage("This profile requires a PIN, but none is configured.");
+      return;
+    }
+
+    // Prompt user
+    const entered = prompt("Enter PIN to view this profile:");
+    if (entered === null) {
+      blockPage("PIN entry was cancelled.");
+      return;
+    }
+
+    if (String(entered).trim() === String(pin).trim()) {
+      sessionStorage.setItem(sessionKey, "1");
+      showPage();
+      window.__enableAnalytics?.();
+    } else {
+      blockPage("Incorrect PIN.");
+    }
+    return;
   }
+
+  // Unknown privacy value
+  showPage();
+  window.__enableAnalytics?.();
 })();
