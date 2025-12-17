@@ -1,3 +1,5 @@
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xeoyybyb";
+
 async function loadPersona() {
   const res = await fetch("./persona.json", { cache: "no-store" });
   if (!res.ok) throw new Error("Could not load persona.json");
@@ -193,6 +195,9 @@ function renderQA(responses = []) {
 (async function init() {
   try {
     const data = await loadPersona();
+
+    const form = el("interestForm");
+    if (form) form.action = FORMSPREE_ENDPOINT;
 
     document.title = `${data.name ?? "Persona"} — Profile`;
     setText("name", data.name);
