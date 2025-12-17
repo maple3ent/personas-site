@@ -4,13 +4,13 @@
   "headline": "This profile demonstrates locked structure + shared questions.",
   "location": "Location",
   "age": "Age",
-  "formspreeEndpoint": "",
 
-  "photos": [
-    "./photo-1.jpg",
-    "./photo-2.jpg",
-    "./photo-3.jpg"
-  ],
+  "siblingRank": "Sibling Rank",
+  "enneagram": "Enneagram",
+  "myersBriggs": "Myers Briggs",
+
+  "formspreeEndpoint": "",
+  "photos": ["./photo-1.jpg", "./photo-2.jpg", "./photo-3.jpg"],
 
   "quickDetails": {
     "Detail 1": "Value",
@@ -26,35 +26,10 @@
       "visibility": "public",
       "status": "draft"
     },
-    {
-      "public": "",
-      "draft": "",
-      "visibility": "public",
-      "status": "draft"
-    },
-    {
-      "public": "",
-      "draft": "",
-      "visibility": "public",
-      "status": "draft"
-    },
-    {
-      "public": "",
-      "draft": "",
-      "visibility": "private",
-      "status": "draft"
-    },
-    {
-      "public": "",
-      "draft": "",
-      "visibility": "public",
-      "status": "draft"
-    },
-    {
-      "public": "",
-      "draft": "",
-      "visibility": "public",
-      "status": "draft"
-    }
+    { "public": "", "draft": "", "visibility": "public", "status": "draft" },
+    { "public": "", "draft": "", "visibility": "public", "status": "draft" },
+    { "public": "", "draft": "", "visibility": "private", "status": "draft" },
+    { "public": "", "draft": "", "visibility": "public", "status": "draft" },
+    { "public": "", "draft": "", "visibility": "public", "status": "draft" }
   ]
 }
