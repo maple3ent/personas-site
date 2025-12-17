@@ -4,7 +4,7 @@
   "headline": "This profile demonstrates locked structure + shared questions.",
   "location": "Location",
   "age": "Age",
-
+  "formspreeEndpoint": "",
   "responses": [
     {
       "public": "Public answer goes here.",
@@ -45,6 +45,3 @@
   ]
 }
 
-
-  "formspreeEndpoint": ""
-}
