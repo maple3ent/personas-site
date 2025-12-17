@@ -5,6 +5,20 @@
   "location": "Location",
   "age": "Age",
   "formspreeEndpoint": "",
+
+  "photos": [
+    "./photo-1.jpg",
+    "./photo-2.jpg",
+    "./photo-3.jpg"
+  ],
+
+  "quickDetails": {
+    "Detail 1": "Value",
+    "Detail 2": "Value",
+    "Detail 3": "Value",
+    "Detail 4": "Value"
+  },
+
   "responses": [
     {
       "public": "Public answer goes here.",
@@ -44,4 +58,3 @@
     }
   ]
 }
-
