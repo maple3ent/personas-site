@@ -166,7 +166,9 @@ function renderQA(responses = []) {
     setText("headline", data.headline);
     setText("location", data.location);
     setText("age", data.age);
-    setText("pronouns", data.pronouns);
+    setText("siblingRank", data.siblingRank);
+    setText("enneagram", data.enneagram);
+    setText("myersBriggs", data.myersBriggs);
 
     const img = el("photo");
     img.src = data.photoPath || "./photo.jpg";
