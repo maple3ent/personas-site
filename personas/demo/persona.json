@@ -4,7 +4,6 @@
   "headline": "Warm, witty, and intentional — here for something real.",
   "location": "Nashville, TN",
   "age": "29",
-  "pronouns": "she/her",
   "photoPath": "./photo.jpg",
 
   "badges": ["Coffee lover", "Faith + family", "Gym 4x/week", "No drama"],
@@ -16,11 +15,15 @@
     "Dealbreakers": "Dishonesty, inconsistency"
   },
 
-  "questions": [
-    { "q": "What are you most proud of?", "a": "Building a life I’m genuinely at peace with." },
-    { "q": "What does a great first date look like?", "a": "Something simple where we can actually talk." },
-    { "q": "What are you looking for right now?", "a": "A partner with emotional maturity and real intention." }
-  ],
+ "answers": [
+    "Non-negotiables answer goes here. This block supports long-form reflection and up to ~500 words.",
+    "This answer describes an area of life currently being worked on or intentionally changing.",
+    "This answer paints a picture of what a great night with friends looks like.",
+    "This answer shares something that recently surprised the person.",
+    "This answer reveals a guilty pleasure — light, human, and fun.",
+    "This answer explains what a typical workweek looks like and how weekends are spent."
+  ]
+}
 
   "formspreeEndpoint": ""
 }
