@@ -224,15 +224,16 @@ function renderQA(responses = []) {
     const personaSlug =
       data.slug || window.location.pathname.split("/").filter(Boolean).slice(-1)[0];
 
+    // Tag persona in the submission
+    const hiddenPersona = el("personaHidden");
+    if (hiddenPersona) hiddenPersona.value = personaSlug;
+    
     const personaNameHidden = el("personaNameHidden");
     if (personaNameHidden) personaNameHidden.value = data.name || personaSlug;
-
-    setText("slug", personaSlug);
-
-    const form = el("interestForm");
-    if (form) form.action = FORMSPREE_ENDPOINT; {
-      form.action = data.formspreeEndpoint;
-    }
+    
+    // Set the Formspree endpoint
+    const interestForm = el("interestForm");
+    if (interestForm) interestForm.action = FORMSPREE_ENDPOINT;
 
   } catch (e) {
     console.error(e);
