@@ -53,20 +53,23 @@ const CANONICAL_QUESTIONS = [
   "What does your typical workweek look like? How about your weekend?"
 ];
 
-function renderQA(items = []) {
-  const wrap = el("qa");
+function renderQA(answers = []) {
+  const wrap = document.getElementById("qa");
   wrap.innerHTML = "";
-  items.forEach(({ q, a }) => {
+
+  CANONICAL_QUESTIONS.forEach((question, i) => {
+    const answer = answers[i] || "";
+
     const card = document.createElement("div");
-    card.className = "qa-item";
+    card.className = "qa-essay";
 
     const qP = document.createElement("p");
     qP.className = "qa-q";
-    qP.textContent = q;
+    qP.textContent = question;
 
     const aP = document.createElement("p");
     aP.className = "qa-a";
-    aP.textContent = a;
+    aP.textContent = answer || "(Answer pending)";
 
     card.appendChild(qP);
     card.appendChild(aP);
@@ -91,7 +94,7 @@ function renderQA(items = []) {
 
     renderBadges(data.badges || []);
     renderQuickDetails(data.quickDetails || {});
-    renderQA(data.questions || []);
+    renderQA(data.answers || []);
 
     // Email capture persona identifier
     const personaSlug = data.slug || window.location.pathname.split("/").filter(Boolean).slice(-1)[0];
