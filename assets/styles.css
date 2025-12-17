@@ -221,3 +221,39 @@ code{ color: #cdd6ff; }
   white-space: pre-wrap;
   min-height: 220px;   /* “essay” feel */
 }
+
+:root{
+  --photo-aspect: 4 / 5;     /* standard portrait shape */
+  --photo-max-h: 560px;      /* standard max size on desktop */
+}
+
+/* Photo container stays a consistent size */
+.photo{
+  aspect-ratio: var(--photo-aspect);
+  max-height: var(--photo-max-h);
+}
+
+/* Gallery */
+.gallery{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.gallery::-webkit-scrollbar{ height: 10px; }
+.gallery-slide{
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: center;
+}
+
+.gallery-slide img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
