@@ -16,6 +16,30 @@ function setHTML(id, html) {
   if (node) node.innerHTML = html ?? "";
 }
 
+function renderPhotos(data) {
+  const gallery = document.getElementById("gallery");
+  if (!gallery) return;
+
+  gallery.innerHTML = "";
+
+  const photos = Array.isArray(data.photos) ? data.photos.filter(Boolean) : [];
+
+  // Fallback: if no photos array, show a single default
+  const sources = photos.length ? photos : ["./photo-1.jpg"];
+
+  sources.forEach((src, idx) => {
+    const slide = document.createElement("div");
+    slide.className = "gallery-slide";
+
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = data.name ? `${data.name} photo ${idx + 1}` : `Profile photo ${idx + 1}`;
+
+    slide.appendChild(img);
+    gallery.appendChild(slide);
+  });
+}
+
 function renderBadges(badges = []) {
   const wrap = el("badges");
   wrap.innerHTML = "";
