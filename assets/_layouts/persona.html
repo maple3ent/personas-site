@@ -1,0 +1,15 @@
+---
+layout: default
+---
+
+<!-- Load your persona CSS in addition to the theme -->
+<link rel="stylesheet" href="{{ '/assets/styles.css' | relative_url }}">
+
+<!-- Privacy + analytics loaders (run before content is visible) -->
+<script src="{{ '/assets/analytics.js' | relative_url }}"></script>
+<script src="{{ '/assets/privacy.js' | relative_url }}"></script>
+
+{{ content }}
+
+<!-- Your persona app logic -->
+<script src="{{ '/assets/app.js' | relative_url }}"></script>
