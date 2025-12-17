@@ -77,86 +77,97 @@
       <p class="footer-note">This section will be populated per persona, but the structure stays the same.</p>
     </section>
 
-    <!-- 4) EMAIL CAPTURE -->
-    <section class="card">
+    <!-- 4) INTEREST FORM (Formspree + Google Sheets-ready) -->
+    <section class="card" id="interestSection">
       <h2>Submit interest</h2>
       <p class="muted">
         This submission is reviewed by our team. If it’s a match, we’ll coordinate next steps.
       </p>
-    
+
+      <!-- In-page success/error messages -->
+      <div id="interestSuccess" class="card" style="display:none; margin-top:12px;">
+        ✅ Thanks — your submission has been received. Our team will review it and follow up if it’s a match.
+      </div>
+
+      <div id="interestError" class="card" style="display:none; margin-top:12px;">
+        ⚠️ Something went wrong submitting the form. Please try again in a moment.
+      </div>
+
       <form id="interestForm" method="POST" action="">
-        <!-- Persona tagging -->
+        <!-- Persona tagging (set by app.js) -->
         <input type="hidden" name="personaSlug" id="personaHidden" value="" />
         <input type="hidden" name="personaName" id="personaNameHidden" value="" />
-        <input type="hidden" name="status" value="NEW" />
+
+        <!-- Google Sheets workflow fields -->
+        <input type="hidden" name="status" id="statusHidden" value="NEW" />
         <input type="hidden" name="reviewNotes" value="" />
 
         <h3>Contact information</h3>
         <div class="kv">
           <div class="k">Your Name</div>
-          <div class="v"><input type="text" name="contactName" required /></div>
-    
+          <div class="v"><input type="text" name="contactName" autocomplete="name" required /></div>
+
           <div class="k">Email</div>
-          <div class="v"><input type="email" name="email" required /></div>
-    
+          <div class="v"><input type="email" name="email" autocomplete="email" required /></div>
+
           <div class="k">Phone</div>
-          <div class="v"><input type="tel" name="phone" /></div>
-    
+          <div class="v"><input type="tel" name="phone" autocomplete="tel" /></div>
+
           <div class="k">Location</div>
           <div class="v"><input type="text" name="yourLocation" placeholder="City, State" /></div>
-    
+
           <div class="k">Age</div>
           <div class="v"><input type="text" name="yourAge" /></div>
         </div>
-    
+
         <h3 style="margin-top:16px;">Quick details</h3>
         <div class="kv">
           <div class="k">Sibling Rank</div>
           <div class="v"><input type="text" name="yourSiblingRank" /></div>
-    
+
           <div class="k">Enneagram</div>
           <div class="v"><input type="text" name="yourEnneagram" /></div>
-    
+
           <div class="k">Myers-Briggs</div>
           <div class="v"><input type="text" name="yourMyersBriggs" /></div>
         </div>
-    
+
         <h3 style="margin-top:16px;">Questions</h3>
-    
+
         <div class="qa">
           <div class="qa-essay">
             <p class="qa-q">What are your non-negotiables?</p>
             <textarea class="qa-a" name="q1" rows="8" required></textarea>
           </div>
-    
+
           <div class="qa-essay">
             <p class="qa-q">What’s an area of life you are actively focused on changing?</p>
             <textarea class="qa-a" name="q2" rows="8" required></textarea>
           </div>
-    
+
           <div class="qa-essay">
             <p class="qa-q">What’s your idea of a great night with friends?</p>
             <textarea class="qa-a" name="q3" rows="8" required></textarea>
           </div>
-    
+
           <div class="qa-essay">
             <p class="qa-q">What’s something that surprised you recently?</p>
             <textarea class="qa-a" name="q4" rows="8" required></textarea>
           </div>
-    
+
           <div class="qa-essay">
             <p class="qa-q">What’s your guilty pleasure?</p>
             <textarea class="qa-a" name="q5" rows="8" required></textarea>
           </div>
-    
+
           <div class="qa-essay">
             <p class="qa-q">What does your typical workweek look like? How about your weekend?</p>
             <textarea class="qa-a" name="q6" rows="8" required></textarea>
           </div>
         </div>
-    
+
         <div style="margin-top:14px;">
-          <button type="submit">Submit for review</button>
+          <button id="interestSubmitBtn" type="submit">Submit for review</button>
           <p class="footer-note">
             By submitting, you consent to us reviewing your responses for matching purposes.
           </p>
@@ -170,5 +181,75 @@
   </main>
 
   <script src="../../assets/app.js"></script>
+
+  <!-- AJAX submit + in-page thank-you (no navigation) -->
+  <script>
+    (function () {
+      const form = document.getElementById("interestForm");
+      if (!form) return;
+
+      const successBox = document.getElementById("interestSuccess");
+      const errorBox = document.getElementById("interestError");
+      const btn = document.getElementById("interestSubmitBtn");
+
+      form.addEventListener("submit", async (e) => {
+        // If browser doesn't support fetch, allow normal submit
+        if (!window.fetch) return;
+
+        e.preventDefault();
+        if (successBox) successBox.style.display = "none";
+        if (errorBox) errorBox.style.display = "none";
+
+        const oldBtnText = btn ? btn.textContent : "";
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Submitting...";
+        }
+
+        // Preserve persona fields across reset
+        const personaSlug = document.getElementById("personaHidden")?.value || "";
+        const personaName = document.getElementById("personaNameHidden")?.value || "";
+        const statusVal = document.getElementById("statusHidden")?.value || "NEW";
+
+        try {
+          const fd = new FormData(form);
+
+          const res = await fetch(form.action, {
+            method: "POST",
+            body: fd,
+            headers: { "Accept": "application/json" }
+          });
+
+          if (!res.ok) throw new Error("Form submit failed");
+
+          // Show success + reset user-entered inputs
+          form.reset();
+
+          // Restore hidden fields after reset
+          const slugEl = document.getElementById("personaHidden");
+          if (slugEl) slugEl.value = personaSlug;
+
+          const nameEl = document.getElementById("personaNameHidden");
+          if (nameEl) nameEl.value = personaName;
+
+          const statusEl = document.getElementById("statusHidden");
+          if (statusEl) statusEl.value = statusVal;
+
+          if (successBox) successBox.style.display = "block";
+          form.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        } catch (err) {
+          // Fallback: show error; user can retry
+          if (errorBox) errorBox.style.display = "block";
+          console.error(err);
+        } finally {
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = oldBtnText || "Submit for review";
+          }
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
