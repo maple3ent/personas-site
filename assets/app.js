@@ -16,6 +16,21 @@ function setHTML(id, html) {
   if (node) node.innerHTML = html ?? "";
 }
 
+function mirrorOverlays() {
+  const name = el("name")?.textContent || "Name";
+  const age = el("age")?.textContent || "Age";
+  const location = el("location")?.textContent || "Location";
+
+  const nO = el("nameOverlay");
+  if (nO) nO.textContent = name;
+
+  const aO = el("ageOverlay");
+  if (aO) aO.textContent = age;
+
+  const lO = el("locationOverlay");
+  if (lO) lO.textContent = location;
+}
+
 /* Dynamic photo gallery */
 function renderPhotos(data) {
   const gallery = el("gallery");
@@ -188,6 +203,9 @@ function renderQA(responses = []) {
     setText("siblingRank", data.siblingRank);
     setText("enneagram", data.enneagram);
     setText("myersBriggs", data.myersBriggs);
+
+    mirrorOverlays();
+    setTimeout(mirrorOverlays, 50);
 
     if (Array.isArray(data.responses) && data.responses.length !== 6) {
       console.warn("Expected exactly 6 responses. Found:", data.responses.length);
