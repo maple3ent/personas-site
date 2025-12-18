@@ -1,15 +1,15 @@
 # Persona Profiles (maple3ent)
 
-This repo hosts a lightweight, scalable “persona profile” site on GitHub Pages (Jekyll Minimal theme for the homepage + custom HTML for persona pages).
+This repo hosts a lightweight, scalable “persona profile” site on GitHub Pages (Jekyll Minimal theme for the homepage + Jekyll layout for persona pages).
 
 - Homepage: `/index.md` (Jekyll)
-- Persona pages: `/personas/<slug>/index.html` (static HTML + `assets/app.js` + `persona.json`)
+- Persona pages: `/personas/<slug>/index.md` (Jekyll layout `persona` + `assets/app.js` + `persona.json`)
 - Each persona has:
   - Standard photo gallery (scroll/snap)
   - Locked overlay layout (Name/Age/Location + Sibling Rank/Enneagram/Myers-Briggs)
   - 6 canonical questions (locked order), with draft/private controls + word/char counters
   - Optional details section
-  - Email capture (Formspree endpoint per persona)
+  - Interest form (Formspree endpoint is configured globally in `assets/app.js`)
 
 ---
 
@@ -25,7 +25,7 @@ Example:
 - New folder: `/personas/alex/`
 
 Make sure the new folder includes:
-- `index.html`
+- `index.md`
 - `persona.json`
 - any `photo-*.jpg` you want to use
 
@@ -55,7 +55,6 @@ Example:
   "siblingRank": "Oldest of 3",
   "enneagram": "3w2",
   "myersBriggs": "ENFJ",
-  "formspreeEndpoint": "",
   "photos": ["./photo-1.jpg", "./photo-2.jpg"],
   "quickDetails": {
     "Love language": "Quality time",
@@ -70,3 +69,17 @@ Example:
     { "public": "", "draft": "", "visibility": "public", "status": "draft" }
   ]
 }
+
+### Draft mode (for writing)
+Add `?mode=draft` to a persona URL to view draft and private answers, along with word/character counts.
+
+Example:
+`/personas/demo/?mode=draft`
+
+### Privacy controls
+Persona pages support three privacy modes via front matter or meta tags:
+- `public` — visible to anyone
+- `pin` — requires a PIN to view
+- `private` — fully restricted
+
+Privacy gates are enforced before analytics are loaded.
